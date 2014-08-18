@@ -335,7 +335,7 @@ public:
 
 	Vector<CT, R> operator*(Vector<CT, R> other)
 	{
-		float data[R][1];
+		CT data[R][1];
 		for (int n = 0; n < R; n++)
 		{
 			data[n][0] = other.At(n);

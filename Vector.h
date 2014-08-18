@@ -25,10 +25,10 @@ public:
 	CT Z() { static_assert(S >= 3, "Vector must have 3 or more elements to access Z"); return _Data[2]; }
 	CT W() { static_assert(S >= 4, "Vector must have 4 or more elements to access W"); return _Data[3]; }
 
-	Vector<CT, S> X(float n) { static_assert(S >= 1, "Vector must have 1 or more elements to access X"); CT data[S]; memcpy(data, _Data, sizeof(CT)* S); data[0] = n; return Vector<CT, S>(data); }
-	Vector<CT, S>  Y(float n) { static_assert(S >= 2, "Vector must have 2 or more elements to access Y"); CT data[S]; memcpy(data, _Data, sizeof(CT)* S); data[1] = n; return Vector<CT, S>(data); }
-	Vector<CT, S>  Z(float n) { static_assert(S >= 3, "Vector must have 3 or more elements to access Z"); CT data[S]; memcpy(data, _Data, sizeof(CT)* S); data[2] = n; return Vector<CT, S>(data); }
-	Vector<CT, S>  W(float n) { static_assert(S >= 4, "Vector must have 4 or more elements to access W"); CT data[S]; memcpy(data, _Data, sizeof(CT)* S); data[3] = n; return Vector<CT, S>(data); }
+	Vector<CT, S> X(CT n) { static_assert(S >= 1, "Vector must have 1 or more elements to access X"); CT data[S]; memcpy(data, _Data, sizeof(CT)* S); data[0] = n; return Vector<CT, S>(data); }
+	Vector<CT, S>  Y(CT n) { static_assert(S >= 2, "Vector must have 2 or more elements to access Y"); CT data[S]; memcpy(data, _Data, sizeof(CT)* S); data[1] = n; return Vector<CT, S>(data); }
+	Vector<CT, S>  Z(CT n) { static_assert(S >= 3, "Vector must have 3 or more elements to access Z"); CT data[S]; memcpy(data, _Data, sizeof(CT)* S); data[2] = n; return Vector<CT, S>(data); }
+	Vector<CT, S>  W(CT n) { static_assert(S >= 4, "Vector must have 4 or more elements to access W"); CT data[S]; memcpy(data, _Data, sizeof(CT)* S); data[3] = n; return Vector<CT, S>(data); }
 
 	//Static element getter (type-safe)
 	template <int N> CT At() { static_assert(N < S, "Vector must have N or more elements to access N"); return _Data[N]; }
@@ -57,7 +57,7 @@ public:
 	SCALAR_OP(operator/, x / y)
 #undef SCALAR_OP
 
-	float Sum()
+	CT Sum()
 	{
 		CT r = 0;
 		for (int i = 0; i < S; i++)
@@ -67,7 +67,7 @@ public:
 		return r;
 	}
 
-	float Product()
+	CT Product()
 	{
 		CT r = S == 0 ? 0 : 1;
 		for (int i = 0; i < S; i++)
@@ -77,17 +77,17 @@ public:
 		return r;
 	}
 
-	float MagnitudeSquared()
+	CT MagnitudeSquared()
 	{
 		return (*this * *this).Sum();
 	}
 
-	float Magnitude()
+	CT Magnitude()
 	{
 		return sqrtf(MagnitudeSquared());
 	}
 
-	static float Dot(Vector<CT, S> first, Vector<CT, S> second)
+	static CT Dot(Vector<CT, S> first, Vector<CT, S> second)
 	{
 		return (first * second).Sum();
 	}
@@ -95,7 +95,7 @@ public:
 	static Vector<CT, S> Cross(Vector<CT, S> first, Vector<CT, S> second)
 	{
 		static_assert(S == 3, "Cannot take cross-product of a non 3 dimensional vector");
-		float data[3];
+		CT data[3];
 		data[0] = first.At<1>() * second.At<2>() - first.At<2>() * second.At<1>();
 		data[1] = first.At<2>() * second.At<0>() - first.At<0>() * second.At<2>();
 		data[2] = first.At<0>() * second.At<1>() - first.At<1>() * second.At<0>();
@@ -103,7 +103,7 @@ public:
 	}
 
 	//No good dot product operators :-(
-	float operator&(Vector<CT, S> other)
+	CT operator&(Vector<CT, S> other)
 	{
 		return Dot(*this, other);
 	}
