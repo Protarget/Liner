@@ -84,7 +84,12 @@ public:
 
 	CT Magnitude()
 	{
-		return sqrtf(MagnitudeSquared());
+		return sqrt(MagnitudeSquared());
+	}
+
+	Vector<CT, S> Normalized()
+	{
+		return (*this) / Magnitude();
 	}
 
 	static CT Dot(Vector<CT, S> first, Vector<CT, S> second)
